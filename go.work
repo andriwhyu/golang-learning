@@ -1,0 +1,12 @@
+go 1.19
+
+use (
+	./arg-count
+	./user-pass-1
+	./user-pass-2
+	./vowel-or-cons
+	./observability-manager-prototype
+	./wire-testing
+	./observability-manager-project
+	./sandbox-go
+)
