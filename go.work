@@ -1,9 +1,10 @@
-go 1.19
+go 1.21.3
 
 use (
 	./arg-count
 	./user-pass-1
 	./user-pass-2
 	./vowel-or-cons
-	./wire-testing
+	//./wire-testing
+	aws-sdk
 )
