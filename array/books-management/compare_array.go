@@ -15,7 +15,7 @@ func main() {
 	shelfA := [3]int{3, 6, 9}
 	shelfB := [3]int{3, 6, 9}
 
-	fmt.Printf("Shelf A: %v\n", shelfA)
+	fmt.Printf("Shelf A: %#v\n", shelfA)
 	fmt.Printf("Shelf B: %v\n", shelfB)
 	fmt.Println("Comparison result:", shelfA == shelfB)
 
