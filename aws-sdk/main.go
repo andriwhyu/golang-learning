@@ -26,9 +26,10 @@ func main() {
 		targetRole    = os.Getenv("TARGET_ROLE")
 		externalId    = os.Getenv("EXTERNAL_ID")
 		snsTopicArn   = os.Getenv("SNS_TOPIC_ARN")
+		snsRegion     = os.Getenv("SNS_AWS_REGION")
 	)
 
-	cfg, err := config.LoadDefaultConfig(context.TODO(), config.WithSharedConfigProfile(profileConfig))
+	cfg, err := config.LoadDefaultConfig(context.TODO(), config.WithRegion(snsRegion), config.WithSharedConfigProfile(profileConfig))
 
 	if err != nil {
 		fmt.Println("error", err)
