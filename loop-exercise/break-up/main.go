@@ -24,29 +24,35 @@ func main() {
 		return
 	}
 
-	min, err_min := strconv.Atoi(args[0])
-	max, err_max := strconv.Atoi(args[1])
+	minVal, err_min := strconv.Atoi(args[0])
+	maxVal, err_max := strconv.Atoi(args[1])
 
-	if err_min != nil || err_max != nil || min > max {
+	if err_min != nil || err_max != nil || minVal > maxVal {
 		fmt.Println(invalid_err)
 		fmt.Println(usage)
 		return
 	}
 
+	if maxVal%2 == 1 {
+		maxVal -= 1
+	}
+
+	i := minVal
+
 	for {
-		if min > max {
+		if i%2 == 0 {
+			if i == maxVal {
+				sep = "="
+			}
+
+			fmt.Printf("%d %s ", i, sep)
+			sum += i
+		}
+
+		i++
+		if i > maxVal {
 			break
-		} else if min%2 == 1 {
-			continue
 		}
-
-		if min == max {
-			sep = "="
-		}
-		fmt.Printf("%d %s ", min, sep)
-		sum += min
-		min++
-
 	}
 
 	fmt.Printf("%d \n", sum)
