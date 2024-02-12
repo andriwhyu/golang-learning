@@ -4,22 +4,24 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 )
 
 func horizontalLine(dimension int) {
-	var (
-		line string
-		i    = 1
-	)
+	//var (
+	//	line string
+	//	i    = 1
+	//)
 
-	for {
-		if i > (dimension+2)*5 {
-			break
-		}
-		line += "-"
-		i++
-	}
+	//for {
+	//	if i > (dimension+2)*5 {
+	//		break
+	//	}
+	//	line += "-"
+	//	i++
+	//}
 
+	line := strings.Repeat("-", (dimension+2)*5)
 	fmt.Println(line)
 }
 
