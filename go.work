@@ -7,4 +7,5 @@ use (
 	./vowel-or-cons
 	//./wire-testing
 	aws-sdk
+	./project-retro-led-clock/3-animating-the-clock
 )
