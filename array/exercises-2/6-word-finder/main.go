@@ -53,14 +53,14 @@ queries:
 		// Search for filtering words
 		for _, val := range filter {
 			if q == val {
-				break queries
+				continue queries
 			}
 		}
 
 		for i, word := range words {
 			if q == word {
 				fmt.Printf("#%-2d: %q\n", i+1, word)
-				continue queries
+				break
 			}
 		}
 	}

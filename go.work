@@ -8,4 +8,6 @@ use (
 	//./wire-testing
 	aws-sdk
 	./project-retro-led-clock/3-animating-the-clock
+	./project-retro-led-clock/exercise/refactor
+	./project-retro-led-clock/exercise/alarm
 )
