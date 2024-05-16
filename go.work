@@ -1,15 +1,17 @@
-go 1.21.3
+go 1.22.1
 
 use (
 	./arg-count
+	./project-retro-led-clock/3-animating-the-clock
+	./project-retro-led-clock/exercise/alarm
+	./project-retro-led-clock/exercise/refactor
+	./project-retro-led-clock/exercise/split-second
+	./project-retro-led-clock/exercise/ticker
+	./slices
 	./user-pass-1
 	./user-pass-2
 	./vowel-or-cons
 	//./wire-testing
 	aws-sdk
-	./project-retro-led-clock/3-animating-the-clock
-	./project-retro-led-clock/exercise/refactor
-	./project-retro-led-clock/exercise/alarm
-	./project-retro-led-clock/exercise/split-second
-	./project-retro-led-clock/exercise/ticker
+	./slices/pagination
 )
