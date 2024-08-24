@@ -9,7 +9,7 @@ func main() {
 	// Simplify type definition
 	type placeholder [5]string
 
-	digits_0 := placeholder{
+	digits0 := placeholder{
 		"███",
 		"█ █",
 		"█ █",
@@ -17,7 +17,7 @@ func main() {
 		"███",
 	}
 
-	digits_1 := placeholder{
+	digits1 := placeholder{
 		"██ ",
 		" █ ",
 		" █ ",
@@ -25,7 +25,7 @@ func main() {
 		"███",
 	}
 
-	digits_2 := placeholder{
+	digits2 := placeholder{
 		"███",
 		"  █",
 		"███",
@@ -33,7 +33,7 @@ func main() {
 		"███",
 	}
 
-	digits_3 := placeholder{
+	digits3 := placeholder{
 		"███",
 		"  █",
 		"███",
@@ -41,7 +41,7 @@ func main() {
 		"███",
 	}
 
-	digits_4 := placeholder{
+	digits4 := placeholder{
 		"█ █",
 		"█ █",
 		"███",
@@ -49,7 +49,7 @@ func main() {
 		"  █",
 	}
 
-	digits_5 := placeholder{
+	digits5 := placeholder{
 		"███",
 		"█  ",
 		"███",
@@ -57,7 +57,7 @@ func main() {
 		"███",
 	}
 
-	digits_6 := placeholder{
+	digits6 := placeholder{
 		"███",
 		"█  ",
 		"███",
@@ -65,7 +65,7 @@ func main() {
 		"███",
 	}
 
-	digits_7 := placeholder{
+	digits7 := placeholder{
 		"███",
 		"  █",
 		"  █",
@@ -73,7 +73,7 @@ func main() {
 		"  █",
 	}
 
-	digits_8 := placeholder{
+	digits8 := placeholder{
 		"███",
 		"█ █",
 		"███",
@@ -81,7 +81,7 @@ func main() {
 		"███",
 	}
 
-	digits_9 := placeholder{
+	digits9 := placeholder{
 		"███",
 		"█ █",
 		"███",
@@ -90,16 +90,16 @@ func main() {
 	}
 
 	digits := [...]placeholder{
-		digits_0,
-		digits_1,
-		digits_2,
-		digits_3,
-		digits_4,
-		digits_5,
-		digits_6,
-		digits_7,
-		digits_8,
-		digits_9,
+		digits0,
+		digits1,
+		digits2,
+		digits3,
+		digits4,
+		digits5,
+		digits6,
+		digits7,
+		digits8,
+		digits9,
 	}
 
 	//for line := range digits[0] {

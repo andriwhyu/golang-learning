@@ -1,4 +1,4 @@
-go 1.22.1
+go 1.22.5
 
 use (
 	./arg-count
@@ -8,10 +8,12 @@ use (
 	./project-retro-led-clock/exercise/split-second
 	./project-retro-led-clock/exercise/ticker
 	./slices
+	./slices/backing-array
+	./slices/pagination
+	./slices/slice-header
 	./user-pass-1
 	./user-pass-2
 	./vowel-or-cons
 	//./wire-testing
 	aws-sdk
-	./slices/pagination
 )

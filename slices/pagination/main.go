@@ -5,14 +5,14 @@ import (
 	"github.com/inancgumus/prettyslice"
 )
 
+const pageSize = 4
+
 func main() {
 	realMadridPlayer := []string{
 		"Camavinga", "Tchouameni", "Bellingham", "Valverde",
 		"Vini Jr", "Rodrygo", "Modric", "Kross",
 		"Carvajal",
 	}
-
-	const pageSize = 4
 
 	prettyslice.MaxPerLine = pageSize
 
