@@ -43,6 +43,9 @@ func main() {
 	fmt.Printf("blue: %#v\n", blue)
 	fmt.Printf("red: %#v\n", red)
 
+	fmt.Println([5]integer{} == accessories{}) // should be false
+	fmt.Println(blue == [5]int{6, 7, 4, 3, 1}) // should be false
+
 	//if accessories == cabinet {
 	//
 	//}

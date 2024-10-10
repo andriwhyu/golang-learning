@@ -11,9 +11,13 @@ use (
 	./slices/backing-array
 	./slices/pagination
 	./slices/slice-header
+	./slices/make-and-limit-cap
 	./user-pass-1
 	./user-pass-2
 	./vowel-or-cons
+	./test-practice
 	//./wire-testing
 	aws-sdk
+	./slices/exercise-1/22-adv-ops-practice
+	./slices/exercise-1/25-add-lines
 )
