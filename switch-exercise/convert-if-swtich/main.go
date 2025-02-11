@@ -36,13 +36,11 @@ func main() {
 		return
 	}
 
-	u, p := args[1], args[2]
-
 	//
 	// REFACTOR THIS TO A SWITCH
 	//
 
-	switch {
+	switch u, p := args[1], args[2]; {
 	case u != user && u != user2:
 		fmt.Printf(errUser, u)
 	case u == user && p == pass:

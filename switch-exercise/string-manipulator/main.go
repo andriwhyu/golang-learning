@@ -68,6 +68,7 @@ func main() {
 	case "upper":
 		convert = strings.ToUpper(str)
 	case "title":
+		// strings.Title has been deprecated. The substitute is golang.org/x/text/cases.
 		convert = strings.Title(str)
 	default:
 		convert = fmt.Sprintf("Unknown command: %q", command)
