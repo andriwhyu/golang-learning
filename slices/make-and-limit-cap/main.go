@@ -12,8 +12,6 @@ func main() {
 		- CAP parameter used to limit the slice growth. One of the use case we want to limit the cap is to prevent the change/append of slice not impact the current backing array.
 		- make have parameter make(type, len, [opt]cap); make([]string, 0, 5)
 	*/
-	prettyslice.MaxPerLine = 10
-	prettyslice.PrintBacking = true
 
 	toyStoryChar := []string{"woody", "buzz", "rex"}
 
@@ -48,4 +46,9 @@ func main() {
 		- len=0 means if we append the slice, it will start from the first element.
 	*/
 
+}
+
+func init() {
+	prettyslice.MaxPerLine = 10
+	prettyslice.PrintBacking = true
 }
