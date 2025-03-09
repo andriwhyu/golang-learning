@@ -1,0 +1,6 @@
+multi_tenant: true
+limit_active_series: 1000
+prometheus_target:
+  url: http://prometheus
+  user: admin
+  password: admin123

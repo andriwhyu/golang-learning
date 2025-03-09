@@ -1,7 +1,11 @@
-go 1.22.5
+go 1.23.2
 
 use (
 	./arg-count
+	./postgresql/libpq
+	./project-bounce-ball/main-project
+	./project-bounce-ball/exercise/auto-screen-size
+	./project-bounce-ball/exercise/3-previous-positions
 	./project-retro-led-clock/3-animating-the-clock
 	./project-retro-led-clock/exercise/alarm
 	./project-retro-led-clock/exercise/refactor
@@ -9,15 +13,23 @@ use (
 	./project-retro-led-clock/exercise/ticker
 	./slices
 	./slices/backing-array
+	./slices/exercise-1/22-adv-ops-practice
+	./slices/exercise-1/25-add-lines
+	./slices/make-and-limit-cap
 	./slices/pagination
 	./slices/slice-header
-	./slices/make-and-limit-cap
+	./test-practice
 	./user-pass-1
 	./user-pass-2
 	./vowel-or-cons
-	./test-practice
-	//./wire-testing
+	./wire-dependency-injection/wire-testing-1
+	./wire-dependency-injection/wire-testing
+	./wire-dependency-injection/wire-providerset
+	./http-server/go-restful-simple
+	./bewg-learning/bewg-http-basic
+	./metrics-sender
+	./custom-otel-playground
+	./structs-custom-types/starting-project
+	./structs-custom-types/user-input-to-json
 	aws-sdk
-	./slices/exercise-1/22-adv-ops-practice
-	./slices/exercise-1/25-add-lines
 )
