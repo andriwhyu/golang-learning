@@ -7,10 +7,14 @@ import (
 	"strings"
 )
 
-// #2 approach 2
+// #2 - approach 2
+type InputHandler interface {
+	Save() error
+	Show()
+}
 
 func main() {
-	// #1 approach 1, without
+	// #1 - approach 1, without interface
 
 	//text := getUserData("Todo text: ")
 	//
@@ -48,7 +52,7 @@ func main() {
 	//}
 	//fmt.Println("Success to save notes.")
 
-	// #2 approach 2, with interface
+	// #2 - approach 2, with interface
 }
 
 func getUserData(prompt string) string {
