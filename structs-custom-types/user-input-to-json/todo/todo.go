@@ -34,6 +34,7 @@ func (t *Todo) Save() error {
 		return err
 	}
 
+	fmt.Println("Success to save Todo.")
 	return nil
 }
 
