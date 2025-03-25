@@ -32,7 +32,7 @@ func (n *UserNote) Save() error {
 		return err
 	}
 
-	err = os.WriteFile("../note.json", noteJson, 0644)
+	err = os.WriteFile("note.json", noteJson, 0644)
 	if err != nil {
 		fmt.Printf("Error on writing file: %s\n", err)
 		return err

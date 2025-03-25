@@ -2,30 +2,53 @@ package main
 
 import (
 	"bufio"
-	"example.com/user-input-to-json/usernote"
 	"fmt"
 	"os"
 	"strings"
 )
 
+// #2 approach 2
+
 func main() {
-	title := getUserData("Note title: ")
-	content := getUserData("Note content: ")
+	// #1 approach 1, without
 
-	note, err := usernote.New(title, content)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
+	//text := getUserData("Todo text: ")
+	//
+	//newTodo, err := todo.New(text)
+	//if err != nil {
+	//	fmt.Println(err)
+	//	return
+	//}
+	//
+	//newTodo.Show()
+	//
+	//err = newTodo.Save()
+	//if err != nil {
+	//	fmt.Println(err)
+	//	return
+	//}
+	//
+	//fmt.Println("Success to save todo.")
+	//
+	//title := getUserData("Note title: ")
+	//content := getUserData("Note content: ")
+	//
+	//note, err := usernote.New(title, content)
+	//if err != nil {
+	//	fmt.Println(err)
+	//	return
+	//}
+	//
+	//note.Show()
+	//
+	//err = note.Save()
+	//if err != nil {
+	//	fmt.Println(err)
+	//	return
+	//}
+	//fmt.Println("Success to save notes.")
 
-	note.Show()
-
-	err = note.Save()
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Println("Success to save notes.")
+	// #2 approach 2, with interface
 }
 
 func getUserData(prompt string) string {
