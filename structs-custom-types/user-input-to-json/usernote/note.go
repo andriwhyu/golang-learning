@@ -38,6 +38,7 @@ func (n *UserNote) Save() error {
 		return err
 	}
 
+	fmt.Println("Success to save Note.")
 	return nil
 }
 
