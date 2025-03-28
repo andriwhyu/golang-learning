@@ -5,6 +5,6 @@ type Saver interface {
 }
 
 type Outputable interface {
-	Saver
+	Saver // embedded interface
 	Show()
 }
