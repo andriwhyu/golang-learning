@@ -27,6 +27,7 @@ use (
 	./wire-dependency-injection/wire-providerset
 	./http-server/go-restful-simple
 	./bewg-learning/bewg-http-basic
+	./bewg-learning/project-2
 	./metrics-sender
 	./custom-otel-playground
 	./structs-custom-types/starting-project
