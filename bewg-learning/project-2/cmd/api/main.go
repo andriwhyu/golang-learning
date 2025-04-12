@@ -1,10 +1,13 @@
 package main
 
-import "log"
+import (
+	"github.com/andriwhyu/golang-learning/bewg-learning/project-2/internal/env"
+	"log"
+)
 
 func main() {
 	cfg := &config{
-		addr: ":8080",
+		addr: env.GetStringVar("ADDR", ":8080"),
 	}
 
 	app := &application{
