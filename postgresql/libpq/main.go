@@ -9,7 +9,7 @@ import (
 const (
 	pgHost     = "localhost"
 	pgUser     = "pguser"
-	pgPassword = "daskfljdas"
+	pgPassword = "pgpassword"
 	pgDB       = "playground"
 	pgPort     = 5432
 )
@@ -126,6 +126,24 @@ WHERE id = $1`
 	fmt.Println("Number of affected row:", numRow)
 }
 
+func testCreateUserTable(db *sql.DB) {
+	query := `
+CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+)
+`
+	_, err := db.Exec(query)
+	if err != nil {
+		fmt.Println("Failed to create table:", err)
+		return
+	}
+
+	fmt.Println("Table created")
+}
+
 func main() {
 	// 1st approach: using full url of postgres.
 	//db, err := sql.Open("postgres", "postgres://pguser:aafsav@@localhost:5432/playground?sslmode=disable")
@@ -150,4 +168,7 @@ func main() {
 	}
 
 	fmt.Println("Successfully connected to PostgreSQL!")
+
+	testCreateUserTable(db)
+	testInsertPg(db, "andri", "wahyu")
 }
