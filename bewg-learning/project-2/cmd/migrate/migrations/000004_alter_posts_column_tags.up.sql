@@ -1,0 +1,2 @@
+ALTER TABLE posts
+ADD tags VARCHAR(100)[];

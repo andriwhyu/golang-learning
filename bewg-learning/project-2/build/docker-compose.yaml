@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: postgres_container
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: adminpassword
+      POSTGRES_DB: socialnetwork
+    ports:
+      - "5432:5432"  # Maps the container's port to the host
+    volumes:
+      - social_network:/var/lib/postgresql/data  # Persistent storage
+
+volumes:
+  social_network:

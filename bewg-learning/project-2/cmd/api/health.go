@@ -1,14 +1,18 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 )
 
-func (app *application) healthCheckHandler(w http.ResponseWriter, _ *http.Request) {
-	_, err := w.Write([]byte("OK\n"))
+func (app *application) healthCheckHandler(w http.ResponseWriter, r *http.Request) {
+	dataDummy := map[string]string{
+		"status":  "ok",
+		"version": version,
+		"env":     app.config.env,
+	}
 
+	err := app.jsonResponse(w, http.StatusOK, dataDummy)
 	if err != nil {
-		fmt.Println(err)
+		app.internalServerErrorLogger(w, r, err)
 	}
 }

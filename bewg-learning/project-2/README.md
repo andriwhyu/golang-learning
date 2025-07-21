@@ -1,0 +1,110 @@
+# Project 2
+
+This document is my scratch note to learn and analyze the code.
+
+app.store.Posts.Create()
+|    |     |      |
+|    |     |      |
+|    |     |      |----------> Create function of posts
+|    |     |-----------------> an interface from store struct which implement Create function
+|    |-----------------------> field of application struct 
+|----------------------------> main application struct
+
+internal/store/storage.go -> store the main storage configuration
+internal/store/posts.go -> struct of Post which implement interface defined in storage.go
+internal/store/users.go -> struct of User which implement interface defined in storage.go
+
+Package that can help working with database/sql:
+- gorm
+- sqlx
+- sqlboiler 
+
+UI for database connection:
+- tableplus
+
+dbConfig parameters/fields:
+1. Address = full postgres address; `postgresql://<username>:<password>@<address>:<port>/<db_name>?sslmode=disable`
+2. Max Open Connections = number of open connections (running + idle) connections in postgres.
+3. Max Idle connections = number of idle connections that can be hanging in postgres.
+4. Max idle time = how long that connection can be hanging until it disconnected.
+
+Tools for migration:
+- migrate https://github.com/golang-migrate/migrate
+- goose https://github.com/pressly/goose
+
+In this project I used [golang-migrate](https://github.com/golang-migrate/migrate?tab=readme-ov-file#migrate) as the migration tools. Golang migrate will handle the migration by creating two files, `.up` and `.down`
+
+Postgres data types explanation:
+1. `citext`. `citext` is not default extension for case-insensitive usage. This type will help if you've a field that case-insensitive like email. It should install first.
+2. `bytea`. `bytea` is byte array to store a byte for example storing video, pdf, hash.
+
+In this project everything about the API was store under `cmd/api/api.go`. This file contain the struct definition of config, and application. also it contain function to running the server (`mount()`, `run()`)
+
+List of return error:
+- 404 : data not found
+- 400 : bad request
+- 500 : internal error
+
+The difference between http PUT and PATCH
+- PUT is used for replace the entire field. Example ⤵️
+```
+# existing field
+{
+    "name": "abdul"
+    "email": "abdul@email.com"
+    "job": "sales"
+}
+
+# incoming request body
+{
+    "name": "abdullah"
+}
+
+# result
+{
+    "name": "abdullah"
+    "email": null
+    "job": null
+}
+```
+
+- PATCH is used for replace partial field. Example ⤵️
+```
+# existing field
+{
+    "name": "abdul"
+    "email": "abdul@email.com"
+    "job": "sales"
+}
+
+# incoming request body
+{
+    "name": "abdullah"
+}
+
+# result
+{
+    "name": "abdullah"
+    "email": "abdul@email.com"
+    "job": "sales"
+}
+```
+
+Context is immutable. That's mean to utilize the context we need to create new context with value
+
+Concurrency Control
+Concurrency control mainly used to handle race condition in database. There are two kind of concurrency control; optimistic and pessimistic concurrency control. 
+1. Optimistic control is a mechanism control based on idea that concurrency is unlikely to happen. By this, the same transaction happen for the same row is allow until the step to update the DBMS data. 
+    It success the update process once the version that want to be update still the same as the DBMS. If it's difference, it will conflict and fail. 
+2. Pessimistic control is a mechanism control based on idea that concurrency is likely happen. By this, once there is a transaction occur, it will lock the row (no one can read/update it) until it release.
+
+Optimistic control used version
+Pessimistic control used lock
+
+Why context is helpful?
+1. With context, we can set a timeout. It means, when a process is run, e.g. database operation, it can cancel the operation if it's takes too long.
+    We can save resources with this.
+2. 
+
+IMPROVEMENT NOTES:
+1. Adjust the migrate makefile argument parser. Instead of using `make migrate-create <args>`, use `make migrate-create MIGRATION_NAME=<args>`. In additions of it, add validation if MIGRATION_NAME is empty.
