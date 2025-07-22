@@ -104,7 +104,13 @@ Pessimistic control used lock
 Why context is helpful?
 1. With context, we can set a timeout. It means, when a process is run, e.g. database operation, it can cancel the operation if it's takes too long.
     We can save resources with this.
-2. 
+
+LEARNING NOTES:
+1. During implementation of Seed script, I noticed my teacher using i%len for indexing. Turns out this is effective to order result for beginning to end of len.
+    It will be useful for indexing start from 0, since the result would be 0 ~ len-1.
+    For example looping for 20 times from 10 data. It will sort the output as 1 - 10  
+    0-10: first cycle of loop it wil generate number 0, 1, ..., 9
+    1-10: second cycle of loop it wil generate number 0, 1, ..., 9
 
 IMPROVEMENT NOTES:
 1. Adjust the migrate makefile argument parser. Instead of using `make migrate-create <args>`, use `make migrate-create MIGRATION_NAME=<args>`. In additions of it, add validation if MIGRATION_NAME is empty.
