@@ -21,7 +21,6 @@ var (
 		"owen", "penny", "rebecca", "steve", "teri",
 		"ulysses", "vanessa", "walt", "xavier", "zoe",
 	}
-
 	firstNames = []string{
 		"Alice", "Bob", "Charlie", "Dana", "Edward",
 		"Fiona", "George", "Hannah", "Ian", "Julia",
@@ -34,7 +33,6 @@ var (
 		"Owen", "Penny", "Rebecca", "Steve", "Teri",
 		"Ulysses", "Vanessa", "Walt", "Xavier", "Zoe",
 	}
-
 	lastNames = []string{
 		"Smith", "Johnson", "Williams", "Brown", "Jones",
 		"Miller", "Davis", "Garcia", "Martinez", "Hernandez",
@@ -70,7 +68,6 @@ var (
 		"Common Pitfalls in API Design (And How to Avoid Them)",
 		"Scaling Log Ingestion with Fluent Bit and Amazon S3",
 	}
-
 	postContents = []string{
 		"Struggling with procrastination? Here are 10 actionable tips to stay focused and get more done every day, from setting clear goals to using time-blocking methods.",
 		"Kubernetes can be intimidating at first. In this guide, we'll demystify core concepts like Pods, Deployments, and Services so you can confidently deploy your first containerized app.",
@@ -93,7 +90,6 @@ var (
 		"Bad APIs hurt users. Avoid common mistakes like inconsistent naming, leaking internal errors, and ignoring versioning best practices.",
 		"Need to handle large log volumes? See how Fluent Bit and Amazon S3 can build a scalable, low-cost log pipeline with minimal ops overhead.",
 	}
-
 	postComments = []string{
 		"Great read! I’ve started using time-blocking and it really works.",
 		"This was super helpful for someone like me just getting started with Kubernetes.",
@@ -116,7 +112,6 @@ var (
 		"This article made me rethink how I design APIs. Great advice!",
 		"Exactly what I needed to scale our logs efficiently. Appreciate the Fluent Bit section!",
 	}
-
 	postTags = []string{
 		"golang",
 		"kubernetes",
@@ -142,10 +137,10 @@ var (
 )
 
 const (
-	numData = 10
+	numData = 2
 )
 
-func Seed(store store.Storage) error {
+func Seed(store store.Storage) {
 	ctx := context.Background()
 	users := generateUsers(numData)
 
@@ -153,7 +148,7 @@ func Seed(store store.Storage) error {
 		err := store.Users.Create(ctx, user)
 		if err != nil {
 			log.Println("Error creating user:", err)
-			return err
+			return
 		}
 	}
 
@@ -163,17 +158,26 @@ func Seed(store store.Storage) error {
 		err := store.Posts.Create(ctx, post)
 		if err != nil {
 			log.Println("Error creating post:", err)
-			return err
+			return
 		}
 	}
 
-	return nil
+	comments := generateComments(numData, users, posts)
+	for _, comment := range comments {
+		err := store.Comments.Create(ctx, comment)
+		if err != nil {
+			log.Println("Error creating comment:", err)
+			return
+		}
+	}
+
+	log.Println("Successfully generated seed")
 }
 
 func generateUsers(userCount int) []*store.User {
 	users := make([]*store.User, 0, userCount)
 	for i := 0; i < userCount; i++ {
-		username := fmt.Sprintf("%s%d", randomUsername[i%len(randomUsername)], i)
+		username := fmt.Sprintf("%s%d", randomUsername[rand.IntN(len(randomUsername))], i)
 		users = append(users, &store.User{
 			Email:     fmt.Sprintf("%s@example.com", username),
 			FirstName: firstNames[i%len(firstNames)],
@@ -188,7 +192,13 @@ func generateUsers(userCount int) []*store.User {
 
 func generatePosts(postCount int, users []*store.User) []*store.Post {
 	posts := make([]*store.Post, 0, postCount)
-	randTagsId := rand.IntN(len(postTags))
+	tagsId1 := rand.IntN(len(postTags))
+	tagsId2 := rand.IntN(len(postTags) - 1)
+
+	// this logic make sure tagsId1 != tagsId2
+	if tagsId1 == tagsId2 {
+		tagsId2++
+	}
 
 	for i := 0; i < postCount; i++ {
 		posts = append(posts, &store.Post{
@@ -196,11 +206,25 @@ func generatePosts(postCount int, users []*store.User) []*store.Post {
 			Title:   postTitles[i%len(postTitles)],
 			Content: postContents[i%len(postContents)],
 			Tags: []string{
-				postTags[randTagsId],
-				postTags[len(postTags)-1-randTagsId],
+				postTags[tagsId1],
+				postTags[tagsId2],
 			},
 		})
 	}
 
 	return posts
+}
+
+func generateComments(commentCount int, users []*store.User, posts []*store.Post) []*store.Comment {
+	comments := make([]*store.Comment, 0, commentCount)
+
+	for i := 0; i < commentCount; i++ {
+		comments = append(comments, &store.Comment{
+			UserID:  users[rand.IntN(len(users))].ID,
+			PostID:  posts[rand.IntN(len(posts))].ID,
+			Content: postComments[i%len(postComments)],
+		})
+	}
+
+	return comments
 }
