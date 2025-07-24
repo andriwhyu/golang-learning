@@ -105,6 +105,14 @@ Why context is helpful?
 1. With context, we can set a timeout. It means, when a process is run, e.g. database operation, it can cancel the operation if it's takes too long.
     We can save resources with this.
 
+In Makefile, I usually used `.PHONY` command. This command is used to say to the make file that if the Make command is equal to the list in `.PHONY` then you don't need 
+to look up for a file name, just do the recipe.
+Pattern of make file
+```
+<target>: <dependencies>
+    <recipe>
+```
+
 LEARNING NOTES:
 1. During implementation of Seed script, I noticed my teacher using i%len for indexing. Turns out this is effective to order result for beginning to end of len.
     It will be useful for indexing start from 0, since the result would be 0 ~ len-1.
