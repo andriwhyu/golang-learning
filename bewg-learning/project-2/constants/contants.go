@@ -6,11 +6,15 @@ import (
 	"time"
 )
 
-type postKey string
+type (
+	postKey string
+	userKey string
+)
 
 const (
 	MaxBytesRequest         = 1_048_578 // 1Mb = 1048578
 	PostCtx         postKey = "post"
+	UserCtx         userKey = "user"
 	QueryTimeout            = time.Second * 5
 )
 

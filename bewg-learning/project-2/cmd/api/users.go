@@ -1,32 +1,47 @@
 package main
 
 import (
+	"context"
 	"errors"
 	"github.com/andriwhyu/golang-learning/bewg-learning/project-2/constants"
+	"github.com/andriwhyu/golang-learning/bewg-learning/project-2/internal/store"
 	"net/http"
 )
 
 func (app *application) getUserHandler(w http.ResponseWriter, r *http.Request) {
-	ctx := r.Context()
-	userID, err := getParamID(r, "userID")
-	if err != nil {
-		app.badRequestErrorLogger(w, r, err)
-		return
-	}
+	user := getUserFromContext(r)
 
-	user, err := app.store.Users.GetByID(ctx, userID)
-	if err != nil {
-		switch {
-		case errors.Is(err, constants.ErrDataNotFoundByID):
-			app.statusNotFoundErrorLogger(w, r, err)
-		default:
-			app.internalServerErrorLogger(w, r, err)
-		}
-		return
-	}
-
-	err = app.jsonResponse(w, http.StatusOK, user)
+	err := app.jsonResponse(w, http.StatusOK, user)
 	if err != nil {
 		app.internalServerErrorLogger(w, r, err)
 	}
+}
+
+func (app *application) userContextMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		userID, err := getParamID(r, "userID")
+		if err != nil {
+			app.badRequestErrorLogger(w, r, err)
+			return
+		}
+
+		ctx := r.Context()
+		user, err := app.store.Users.GetByID(ctx, userID)
+		if err != nil {
+			switch {
+			case errors.Is(err, constants.ErrDataNotFoundByID):
+				app.statusNotFoundErrorLogger(w, r, err)
+			default:
+				app.internalServerErrorLogger(w, r, err)
+			}
+			return
+		}
+
+		ctx = context.WithValue(ctx, constants.UserCtx, user)
+		next.ServeHTTP(w, r.WithContext(ctx))
+	})
+}
+
+func getUserFromContext(r *http.Request) *store.User {
+	return r.Context().Value(constants.UserCtx).(*store.User)
 }

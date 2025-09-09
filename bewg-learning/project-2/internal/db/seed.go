@@ -137,7 +137,7 @@ var (
 )
 
 const (
-	numData = 2
+	numData = 10
 )
 
 func Seed(store store.Storage) {

@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS followers(
+    user_id INTEGER NOT NULL REFERENCES users ON DELETE CASCADE,
+    follower_id INTEGER NOT NULL REFERENCES users ON DELETE CASCADE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+
+    PRIMARY KEY (user_id, follower_id)
+);

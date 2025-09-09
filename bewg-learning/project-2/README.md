@@ -113,12 +113,24 @@ Pattern of make file
     <recipe>
 ```
 
+In HTTP request, every methods have its own characteristic. Some characteristics are; safe, idempotent, cacheable
+**Safe**
+Safe is mean the HTTP method not change the server state. All safe method is idempotent, but not all idempotent method is safe. 
+
+**Idempotent**
+Idempotent mean when the HTTP method executed it will return the same how many times it triggered. 
+https://developer.mozilla.org/en-US/docs/Glossary/Idempotent
+
+**Cacheable**
+https://developer.mozilla.org/en-US/docs/Glossary/Cacheable
+
 LEARNING NOTES:
 1. During implementation of Seed script, I noticed my teacher using i%len for indexing. Turns out this is effective to order result for beginning to end of len.
     It will be useful for indexing start from 0, since the result would be 0 ~ len-1.
     For example looping for 20 times from 10 data. It will sort the output as 1 - 10  
     0-10: first cycle of loop it wil generate number 0, 1, ..., 9
     1-10: second cycle of loop it wil generate number 0, 1, ..., 9
+2. Composite primary key is a primary key that created from multiple columns. This approach chosen when we need set unique pairs for the columns value.
 
 IMPROVEMENT NOTES:
 1. Adjust the migrate makefile argument parser. Instead of using `make migrate-create <args>`, use `make migrate-create MIGRATION_NAME=<args>`. In additions of it, add validation if MIGRATION_NAME is empty.

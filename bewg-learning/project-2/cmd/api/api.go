@@ -54,7 +54,13 @@ func (app *application) mount() http.Handler {
 		// API pattern <HTTP_METHOD> /v1/users
 		r.Route("/users", func(r chi.Router) {
 			r.Route("/{userID}", func(r chi.Router) {
+				r.Use(app.userContextMiddleware)
+
 				r.Get("/", app.getUserHandler)
+
+				// TODO: change the handler once created
+				r.Put("/follow", app.getUserHandler)
+				r.Put("/unfollow", app.getUserHandler)
 			})
 		})
 	})

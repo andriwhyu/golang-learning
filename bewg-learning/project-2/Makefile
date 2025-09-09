@@ -19,3 +19,7 @@ migrate-force:
 .PHONY: seed
 seed:
 	@go run ./cmd/migrate/seed/main.go
+
+.PHONY: run-server
+run-server:
+	@air
