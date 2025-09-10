@@ -17,6 +17,42 @@ func (app *application) getUserHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func (app *application) followUserHandler(w http.ResponseWriter, r *http.Request) {
+	followerUser := getUserFromContext(r)
+	userID := 1 // will replace later once the auth done
+
+	ctx := r.Context()
+	err := app.store.Followers.Follow(ctx, userID, followerUser.ID)
+
+	if err != nil {
+		app.internalServerErrorLogger(w, r, err)
+		return
+	}
+
+	if err := app.jsonResponse(w, http.StatusNoContent, nil); err != nil {
+		app.internalServerErrorLogger(w, r, err)
+		return
+	}
+}
+
+func (app *application) unfollowUserHandler(w http.ResponseWriter, r *http.Request) {
+	followerUser := getUserFromContext(r)
+	userID := 1 // will replace later once the auth done
+
+	ctx := r.Context()
+	err := app.store.Followers.Unfollow(ctx, userID, followerUser.ID)
+
+	if err != nil {
+		app.internalServerErrorLogger(w, r, err)
+		return
+	}
+
+	if err := app.jsonResponse(w, http.StatusNoContent, nil); err != nil {
+		app.internalServerErrorLogger(w, r, err)
+		return
+	}
+}
+
 func (app *application) userContextMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		userID, err := getParamID(r, "userID")

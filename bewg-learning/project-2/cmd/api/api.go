@@ -58,9 +58,8 @@ func (app *application) mount() http.Handler {
 
 				r.Get("/", app.getUserHandler)
 
-				// TODO: change the handler once created
-				r.Put("/follow", app.getUserHandler)
-				r.Put("/unfollow", app.getUserHandler)
+				r.Put("/follow", app.followUserHandler)
+				r.Put("/unfollow", app.unfollowUserHandler)
 			})
 		})
 	})
