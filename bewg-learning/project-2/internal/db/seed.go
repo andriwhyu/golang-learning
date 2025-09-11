@@ -171,6 +171,14 @@ func Seed(store store.Storage) {
 		}
 	}
 
+	followers := generateFollowers(numData)
+	for _, follower := range followers {
+		err := store.Followers.Follow(ctx, follower[0], follower[1])
+		if err != nil {
+			log.Println("Error generate followers table:", err)
+		}
+	}
+
 	log.Println("Successfully generated seed")
 }
 
@@ -227,4 +235,18 @@ func generateComments(commentCount int, users []*store.User, posts []*store.Post
 	}
 
 	return comments
+}
+
+// generateFollowers designed to only works for the first time seeding with assumption empty database
+func generateFollowers(userCount int) [][]int {
+	result := make([][]int, 0, userCount)
+
+	// Create the algorithm. Algorithm that used is find all possible pair with A,B = B,A. It means it only generate different pair from all possible number.
+	for i := 1; i <= userCount; i++ {
+		for j := i + 1; j <= userCount; j++ {
+			result = append(result, []int{i, j})
+		}
+	}
+
+	return result
 }
