@@ -124,6 +124,10 @@ https://developer.mozilla.org/en-US/docs/Glossary/Idempotent
 **Cacheable**
 https://developer.mozilla.org/en-US/docs/Glossary/Cacheable
 
+### Database Indexing
+One of advantage of indexing is increased the Read performance. Although, the trade-off is slower Write performance.
+
+
 LEARNING NOTES:
 1. During implementation of Seed script, I noticed my teacher using i%len for indexing. Turns out this is effective to order result for beginning to end of len.
     It will be useful for indexing start from 0, since the result would be 0 ~ len-1.

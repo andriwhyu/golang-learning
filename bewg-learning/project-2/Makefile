@@ -23,3 +23,11 @@ seed:
 .PHONY: run-server
 run-server:
 	@air
+
+.PHONY: build
+build:
+	@cd build && docker-compose up -d
+
+.PHONY: clean
+clean:
+	@cd build && docker-compose down
