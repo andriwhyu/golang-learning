@@ -1,0 +1,22 @@
+MIGRATION_PATH := ./migrations
+DOCKER_BUILD_PATH := /libpq/build/postgres
+
+.PHONY: migrate-create
+migrate-create:
+	@migrate create -ext sql -dir $(MIGRATION_PATH) -seq $(filter-out $@,$(MAKECMDGOALS))
+
+.PHONY: migreate-up
+migrate-up:
+	@migrate -path=$(MIGRATION_PATH) -database=$(DB_ADDR) up
+
+.PHONY: migreate-down
+migrate-down:
+	@migrate -path=$(MIGRATION_PATH) -database=$(DB_ADDR) down $(filter-out $@,$(MAKECMDGOALS))
+
+.PHONY: build
+build:
+	@cd ..$(DOCKER_BUILD_PATH) && docker-compose up -d
+
+.PHONY: clean
+clean:
+	@cd ..$(DOCKER_BUILD_PATH) && docker-compose down
