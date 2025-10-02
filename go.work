@@ -3,6 +3,7 @@ go 1.23.2
 use (
 	./arg-count
 	./postgresql/libpq
+	./postgresql/indexing
 	./project-bounce-ball/main-project
 	./project-bounce-ball/exercise/auto-screen-size
 	./project-bounce-ball/exercise/3-previous-positions

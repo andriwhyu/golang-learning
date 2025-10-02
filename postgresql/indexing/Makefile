@@ -17,6 +17,10 @@ migrate-down:
 build:
 	@cd ..$(DOCKER_BUILD_PATH) && docker-compose up -d
 
+.PHONY: run-generator
+run-generator:
+	@export GENERATED_DATA_COUNT="$(filter-out $@,$(MAKECMDGOALS))" && go run .
+
 .PHONY: clean
 clean:
 	@cd ..$(DOCKER_BUILD_PATH) && docker-compose down
