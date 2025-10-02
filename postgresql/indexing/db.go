@@ -9,7 +9,11 @@ type DBConnection struct {
 	address string
 }
 
-func (db DBConnection) Connect() (*sql.DB, error) {
+func NewDB(address string) *DBConnection {
+	return &DBConnection{address: address}
+}
+
+func (db *DBConnection) Connect() (*sql.DB, error) {
 	dbConn, err := sql.Open("postgres", db.address)
 	if err != nil {
 		fmt.Println("Error connecting to database")
