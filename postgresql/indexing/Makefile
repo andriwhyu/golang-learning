@@ -7,7 +7,7 @@ migrate-create:
 
 .PHONY: migreate-up
 migrate-up:
-	@migrate -path=$(MIGRATION_PATH) -database=$(DB_ADDR) up
+	@migrate -path=$(MIGRATION_PATH) -database=$(DB_ADDR) up $(filter-out $@,$(MAKECMDGOALS))
 
 .PHONY: migreate-down
 migrate-down:
