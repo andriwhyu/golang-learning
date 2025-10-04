@@ -1,0 +1,1 @@
+DROP INDEX IF EXISTS comments_username_idx;
