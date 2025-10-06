@@ -1,5 +1,5 @@
 MIGRATION_PATH := ./migrations
-DOCKER_BUILD_PATH := /libpq/build/postgres
+DOCKER_BUILD_PATH := ./build
 
 .PHONY: migrate-create
 migrate-create:
@@ -15,7 +15,7 @@ migrate-down:
 
 .PHONY: build
 build:
-	@cd ..$(DOCKER_BUILD_PATH) && docker-compose up -d
+	@cd $(DOCKER_BUILD_PATH) && docker-compose up -d
 
 .PHONY: run-generator
 run-generator:
@@ -23,4 +23,4 @@ run-generator:
 
 .PHONY: clean
 clean:
-	@cd ..$(DOCKER_BUILD_PATH) && docker-compose down
+	@cd $(DOCKER_BUILD_PATH) && docker-compose down

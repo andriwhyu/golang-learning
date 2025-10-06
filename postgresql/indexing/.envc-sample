@@ -1,0 +1,5 @@
+export POSTGRES_USER=admin
+export POSTGRES_PASSWORD=admin
+export POSTGRES_DB=playground
+export POSTGRES_PORT="5432"
+export DB_ADDR="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:${POSTGRES_PORT}/${POSTGRES_DB}?sslmode=disable"
