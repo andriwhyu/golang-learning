@@ -5,11 +5,11 @@ DOCKER_BUILD_PATH := ./build
 migrate-create:
 	@migrate create -ext sql -dir $(MIGRATION_PATH) -seq $(filter-out $@,$(MAKECMDGOALS))
 
-.PHONY: migreate-up
+.PHONY: migrate-up
 migrate-up:
 	@migrate -path=$(MIGRATION_PATH) -database=$(DB_ADDR) up $(filter-out $@,$(MAKECMDGOALS))
 
-.PHONY: migreate-down
+.PHONY: migrate-down
 migrate-down:
 	@migrate -path=$(MIGRATION_PATH) -database=$(DB_ADDR) down $(filter-out $@,$(MAKECMDGOALS))
 

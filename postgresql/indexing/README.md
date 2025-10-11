@@ -36,12 +36,9 @@ The table contains three columns with the data type as below ⤵️
 
 ```
 Table comments {
-  id integer [
-    primary key,
-    increment
-  ]
+  id       integer [primary key, increment]
   username varchar(50)
-  content text [not null]
+  content  text [not null]
 }
 ```
 
@@ -85,6 +82,11 @@ This steps will run all the migrations and applied the indexing directly.
    EXPLAIN ANALYZE SELECT * FROM comments WHERE username = 'faith3265';
    EXPLAIN ANALYZE SELECT * FROM comments WHERE content LIKE '%with my%';
    ```
+6. (Optional) Clean up phase.
+   ```
+   make migrate-down
+   make clean
+   ```
    
 #### Command Recap
 
@@ -92,15 +94,81 @@ This steps will run all the migrations and applied the indexing directly.
 make build
 make migrate-up
 make run-generator 10
-```
-```sql
+
 SELECT schemaname, indexname, tablename, indexdef
 FROM pg_indexes
 WHERE tablename = 'comments';
 
 EXPLAIN ANALYZE SELECT * FROM comments WHERE username = 'faith3265';
 EXPLAIN ANALYZE SELECT * FROM comments WHERE content LIKE '%with my%';
+
+# optional
+make migrate-down
+make clean
+```
+
+### Run the migration periodically
+
+This step is designed to compare execution times before and after indexing. Please follow the guide below.
+
+1. Initialize the postgres database using docker by running `make build`
+2. Run the migration by executing `make migrate-up 1`. This will migrate the database step by step (one level up). In the first step, it will create the `comment` database.
+3. To seed the database, execute the following command. ⤵️
+   ```
+   # make run-generater <numdata>
+
+   make run-generator 10
+   ```
+4. Analyse search username execution time **before** the indexing applied.
+   ```sql
+   EXPLAIN ANALYZE SELECT * FROM comments WHERE username = 'faith3265';
+   ```
+5. Create an index for username column by running `make migrate-up 1`. In this 2nd migration, it will create index for username column.
+6. Analyse search username execution time **after** the indexing applied.
+   ```sql
+   EXPLAIN ANALYZE SELECT * FROM comments WHERE username = 'faith3265';
+   ```
+7. Analyse search comment (content column) execution time **before** the indexing applied.
+   ```sql
+   EXPLAIN ANALYZE SELECT * FROM comments WHERE content LIKE '%with my%';
+   ```
+8. Create index for content column by running `make migrate-up 1`. In this 3rd migration, it will create index for content column.
+9. Analyse search comment (content column) execution time **after** the indexing applied.
+   ```sql
+   EXPLAIN ANALYZE SELECT * FROM comments WHERE content LIKE '%with my%';
+   ```
+10. (Optional) Clean up phase.
+   ```
+   make migrate-down
+   make clean
+   ```
+
+#### Command Recap
+
+```
+make build
+make migrate-up 1
+make run-generator 10
+
+EXPLAIN ANALYZE SELECT * FROM comments WHERE username = 'faith3265';
+make migrate-up 1
+EXPLAIN ANALYZE SELECT * FROM comments WHERE username = 'faith3265';
+
+EXPLAIN ANALYZE SELECT * FROM comments WHERE content LIKE '%with my%';
+make migrate-up 1
+EXPLAIN ANALYZE SELECT * FROM comments WHERE content LIKE '%with my%';
+
+# optional
+make migrate-down
+make clean
 ```
 
 ## Additional features
-TBD
+
+### Create new migration
+
+You can extend this feature with your own tables and use cases by creating a new migration using this command: `make migrate-create <migration_name>`.
+
+```
+make migrate-create create_comments
+```
