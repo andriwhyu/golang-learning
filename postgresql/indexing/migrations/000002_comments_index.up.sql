@@ -1,0 +1,1 @@
+CREATE INDEX IF NOT EXISTS comments_username_idx ON comments(username);
