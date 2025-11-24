@@ -2,9 +2,12 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"github.com/andriwhyu/golang-learning/bewg-learning/project-2/internal/db"
 	"github.com/andriwhyu/golang-learning/bewg-learning/project-2/internal/env"
 	"github.com/andriwhyu/golang-learning/bewg-learning/project-2/internal/store"
+	"os"
+	"strconv"
 )
 
 func main() {
@@ -25,6 +28,15 @@ func main() {
 		}
 	}(dbConnection)
 
+	generatedDataCount, err := strconv.Atoi(os.Getenv("GENERATED_DATA_COUNT"))
+
+	// set default number of generated data
+	if err != nil {
+		generatedDataCount = 100
+	}
+
+	fmt.Printf("Generated data count: %d\n", generatedDataCount)
+
 	storageObj := store.NewStorage(dbConnection)
-	db.Seed(storageObj)
+	db.Seed(storageObj, generatedDataCount)
 }

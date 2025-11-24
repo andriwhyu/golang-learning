@@ -136,12 +136,10 @@ var (
 	}
 )
 
-const (
-	numData = 10
-)
-
-func Seed(store store.Storage) {
+func Seed(store store.Storage, totalData int) {
 	ctx := context.Background()
+
+	numData := totalData
 	users := generateUsers(numData)
 
 	for _, user := range users {

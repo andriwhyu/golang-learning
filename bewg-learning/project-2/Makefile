@@ -18,7 +18,7 @@ migrate-force:
 
 .PHONY: seed
 seed:
-	@go run ./cmd/migrate/seed/main.go
+	@export GENERATED_DATA_COUNT="$(filter-out $@,$(MAKECMDGOALS))" && go run ./cmd/migrate/seed/main.go
 
 .PHONY: run-server
 run-server:
