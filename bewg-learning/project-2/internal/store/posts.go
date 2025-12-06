@@ -22,8 +22,8 @@ type Post struct {
 }
 
 type PostFeed struct {
-	Posts []Post `json:"posts"`
-	User  User   `json:"user"`
+	Post Post `json:"post"`
+	User User `json:"user"`
 }
 
 type PostStore struct {
@@ -151,17 +151,21 @@ func (ps *PostStore) UpdateByID(ctx context.Context, id int, post *Post) error {
 	return nil
 }
 
-func (ps *PostStore) GetPostFeed(ctx context.Context, id int) (*PostFeed, error) {
+func (ps *PostStore) GetPostFeed(ctx context.Context, id int) ([]*PostFeed, error) {
+	// the query will get all posts for the selected user or all posts from all user that has been followed by the selected user
 	query := `
 		SELECT
 			p.id, p.title, p.content, p.tags, p.user_id, p.created_at, p.updated_at, p.version,
 			u.id, u.username, u.first_name, u.last_name, u.email, u.created_at,
 			COUNT(p.id) AS total_comment
 		FROM posts p
-			 LEFT JOIN comments c ON p.id = c.post_id
-			 JOIN users u ON p.user_id = u.id
-		WHERE p.user_id = $1
-		GROUP BY p.id, u.id;
+		LEFT JOIN comments c ON p.id = c.post_id
+		JOIN users u ON u.id = p.user_id
+		WHERE p.user_id = $1 OR p.user_id IN (
+			SELECT user_id FROM followers WHERE follower_id = $1
+		)
+		GROUP BY p.id, u.id
+		ORDER BY p.created_at DESC;
 	`
 
 	ctx, cancel := context.WithTimeout(ctx, constants.QueryTimeout)
@@ -172,12 +176,14 @@ func (ps *PostStore) GetPostFeed(ctx context.Context, id int) (*PostFeed, error)
 		return nil, err
 	}
 
-	defer rows.Close()
+	defer func(rows *sql.Rows) {
+		errDefer := rows.Close()
+		if errDefer != nil && err == nil {
+			err = errDefer
+		}
+	}(rows)
 
-	var (
-		postFeed PostFeed
-		posts    []Post
-	)
+	var postFeeds []*PostFeed
 
 	for rows.Next() {
 		var (
@@ -202,16 +208,13 @@ func (ps *PostStore) GetPostFeed(ctx context.Context, id int) (*PostFeed, error)
 			&user.CreatedAt,
 			&post.CommentCount,
 		)
+		postFeed := PostFeed{Post: post, User: user}
+		postFeeds = append(postFeeds, &postFeed)
 
 		if err != nil {
 			return nil, err
 		}
-
-		posts = append(posts, post)
-		postFeed.User = user
 	}
 
-	postFeed.Posts = posts
-
-	return &postFeed, nil
+	return postFeeds, nil
 }

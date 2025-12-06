@@ -7,7 +7,7 @@ import (
 func (app *application) getFeedHandler(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
-	postFeed, err := app.store.Posts.GetPostFeed(ctx, 85)
+	postFeed, err := app.store.Posts.GetPostFeed(ctx, 3)
 	if err != nil {
 		app.internalServerErrorLogger(w, r, err)
 		return
