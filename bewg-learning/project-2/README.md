@@ -2,6 +2,13 @@
 
 This document is my scratch note to learn and analyze the code.
 
+## Prerequisite
+
+1. docker-compose
+2. Makefile
+3. golang-migrate
+4. direnv
+
 app.store.Posts.Create()
 |    |     |      |
 |    |     |      |

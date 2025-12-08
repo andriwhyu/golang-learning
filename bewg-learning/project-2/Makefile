@@ -22,6 +22,8 @@ seed:
 
 .PHONY: run-server
 run-server:
+    # ./bin is use by the air tool
+	@mkdir -p ./bin 
 	@air
 
 .PHONY: build

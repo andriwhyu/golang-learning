@@ -1,12 +1,13 @@
 package main
 
 import (
-	"github.com/andriwhyu/golang-learning/bewg-learning/project-2/internal/store"
-	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/andriwhyu/golang-learning/bewg-learning/project-2/internal/store"
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 )
 
 type application struct {
