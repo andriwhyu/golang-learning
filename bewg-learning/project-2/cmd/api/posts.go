@@ -3,9 +3,10 @@ package main
 import (
 	"context"
 	"errors"
+	"net/http"
+
 	"github.com/andriwhyu/golang-learning/bewg-learning/project-2/constants"
 	"github.com/andriwhyu/golang-learning/bewg-learning/project-2/internal/store"
-	"net/http"
 )
 
 type createPostRequest struct {

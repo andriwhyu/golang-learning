@@ -11,7 +11,7 @@ type Storage struct {
 		GetByID(context.Context, int) (*Post, error)
 		DeleteByID(context.Context, int) error
 		UpdateByID(context.Context, int, *Post) error
-		GetPostFeed(context.Context, int) ([]*PostFeed, error)
+		GetPostFeed(context.Context, int, Pagination) ([]*PostFeed, error)
 	}
 
 	Users interface {

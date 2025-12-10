@@ -4,6 +4,8 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"fmt"
+
 	"github.com/andriwhyu/golang-learning/bewg-learning/project-2/constants"
 	"github.com/lib/pq"
 )
@@ -151,9 +153,9 @@ func (ps *PostStore) UpdateByID(ctx context.Context, id int, post *Post) error {
 	return nil
 }
 
-func (ps *PostStore) GetPostFeed(ctx context.Context, id int) ([]*PostFeed, error) {
+func (ps *PostStore) GetPostFeed(ctx context.Context, id int, pagination Pagination) ([]*PostFeed, error) {
 	// the query will get all posts for the selected user or all posts from all user that has been followed by the selected user
-	query := `
+	query := fmt.Sprintf(`
 		SELECT
 			p.id, p.title, p.content, p.tags, p.user_id, p.created_at, p.updated_at, p.version,
 			u.id, u.username, u.first_name, u.last_name, u.email, u.created_at,
@@ -165,13 +167,14 @@ func (ps *PostStore) GetPostFeed(ctx context.Context, id int) ([]*PostFeed, erro
 			SELECT user_id FROM followers WHERE follower_id = $1
 		)
 		GROUP BY p.id, u.id
-		ORDER BY p.created_at DESC;
-	`
+		ORDER BY p.created_at %s
+		LIMIT $2 OFFSET $3;
+	`, pagination.Sort)
 
 	ctx, cancel := context.WithTimeout(ctx, constants.QueryTimeout)
 	defer cancel()
 
-	rows, err := ps.db.QueryContext(ctx, query, id)
+	rows, err := ps.db.QueryContext(ctx, query, id, pagination.Limit, pagination.Offset)
 	if err != nil {
 		return nil, err
 	}

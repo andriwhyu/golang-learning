@@ -2,10 +2,11 @@ package main
 
 import (
 	"database/sql"
+	"log"
+
 	"github.com/andriwhyu/golang-learning/bewg-learning/project-2/internal/db"
 	"github.com/andriwhyu/golang-learning/bewg-learning/project-2/internal/env"
 	"github.com/andriwhyu/golang-learning/bewg-learning/project-2/internal/store"
-	"log"
 )
 
 const (
