@@ -3,12 +3,15 @@ package store
 import (
 	"net/http"
 	"strconv"
+	"strings"
 )
 
 type Pagination struct {
-	Limit  int    `json:"limit" validate:"min=1,max=20"`
-	Offset int    `json:"offset" validate:"min=0"`
-	Sort   string `json:"sort" validate:"oneof=asc desc"`
+	Limit  int      `json:"limit" validate:"min=1,max=20"`
+	Offset int      `json:"offset" validate:"min=0"`
+	Sort   string   `json:"sort" validate:"oneof=asc desc"`
+	Search string   `json:"search" validate:"max=100"`
+	Tags   []string `json:"tags" validate:"max=5"`
 }
 
 func (p *Pagination) Parse(r *http.Request) (*Pagination, error) {
@@ -37,9 +40,19 @@ func (p *Pagination) Parse(r *http.Request) (*Pagination, error) {
 		sort = "desc" // default sort order
 	}
 
+	search := r.URL.Query().Get("search")
+
+	tags := []string{}
+	tagsStr := r.URL.Query().Get("tags")
+	if tagsStr != "" {
+		tags = strings.Split(tagsStr, ",")
+	}
+
 	p.Sort = sort
 	p.Limit = limit
 	p.Offset = offset
+	p.Search = search
+	p.Tags = tags
 
 	return p, nil
 }
