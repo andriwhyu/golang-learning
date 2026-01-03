@@ -12,6 +12,7 @@ type Pagination struct {
 	Sort   string   `json:"sort" validate:"oneof=asc desc"`
 	Search string   `json:"search" validate:"max=100"`
 	Tags   []string `json:"tags" validate:"max=5"`
+	Since  int64    `json:"since" validate:"min=1704070800"`
 }
 
 func (p *Pagination) Parse(r *http.Request) (*Pagination, error) {
@@ -48,10 +49,21 @@ func (p *Pagination) Parse(r *http.Request) (*Pagination, error) {
 		tags = strings.Split(tagsStr, ",")
 	}
 
+	sinceStr := r.URL.Query().Get("since")
+	if sinceStr == "" {
+		sinceStr = "0" // default since
+	}
+
+	since, err := strconv.ParseInt(sinceStr, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+
 	p.Sort = sort
 	p.Limit = limit
 	p.Offset = offset
 	p.Search = search
+	p.Since = since
 	p.Tags = tags
 
 	return p, nil
