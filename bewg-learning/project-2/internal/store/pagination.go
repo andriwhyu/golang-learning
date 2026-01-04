@@ -51,7 +51,7 @@ func (p *Pagination) Parse(r *http.Request) (*Pagination, error) {
 
 	sinceStr := r.URL.Query().Get("since")
 	if sinceStr == "" {
-		sinceStr = "0" // default since
+		sinceStr = "1704070800" // default since
 	}
 
 	since, err := strconv.ParseInt(sinceStr, 10, 64)

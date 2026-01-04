@@ -169,7 +169,8 @@ func (ps *PostStore) GetPostFeed(ctx context.Context, id int, pagination Paginat
 					SELECT user_id FROM followers WHERE follower_id = $1
 				)
 			) AND (p.title ILIKE $4 OR p.content ILIKE $4)
-			AND (cardinality($5::varchar(100)[]) = 0 OR p.tags && $5::varchar(100)[])
+			AND (CARDINALITY($5::varchar(100)[]) = 0 OR p.tags && $5::varchar(100)[])
+			AND p.created_at >= TO_TIMESTAMP($6)
 		GROUP BY p.id, u.id
 		ORDER BY p.created_at %s
 		LIMIT $2 OFFSET $3;
@@ -178,7 +179,7 @@ func (ps *PostStore) GetPostFeed(ctx context.Context, id int, pagination Paginat
 	ctx, cancel := context.WithTimeout(ctx, constants.QueryTimeout)
 	defer cancel()
 
-	rows, err := ps.db.QueryContext(ctx, query, id, pagination.Limit, pagination.Offset, "%"+pagination.Search+"%", pq.Array(pagination.Tags))
+	rows, err := ps.db.QueryContext(ctx, query, id, pagination.Limit, pagination.Offset, "%"+pagination.Search+"%", pq.Array(pagination.Tags), pagination.Since)
 	if err != nil {
 		return nil, err
 	}
